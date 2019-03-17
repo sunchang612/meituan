@@ -60,7 +60,7 @@ For detailed explanation on how things work, checkout [Nuxt.js docs](https://nux
 
 - redis 一般用作两个场景 1. 结合 session 去用 2. 自己操作 redis 读写
 
-## Nuxt.js  纳斯特
+## Nuxt.js
 - 支持 vue SSR 的一种框架
 - 安装
   - vue init nuxt-community/koa-template nuxt-learn 或者用 nuxt 官网推荐安装
