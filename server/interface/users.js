@@ -156,3 +156,33 @@ router.post('/verify', async(ctx, next) => {
     msg: '验证码已发送，有效期一分钟'
   }
 })
+
+router.get('/exit', async(ctx, next) => {
+  await ctx.logout()
+  if (!ctx.isAuthenticated()) { //是否为登录状态
+    ctx.body = {
+      code: 0
+    }
+  } else {
+    ctx.body = {
+      code: -1
+    }
+  }
+})
+
+router.get('/getUser', async(ctx) => {
+  if (ctx.isAuthenticated()) { // isAuthenticated Passport 中定义的方法
+    const { username, email } = ctx.session.passport.user
+    ctx.body = {
+      user: username,
+      email
+    }
+  } else {
+    ctx.body = {
+      user: '',
+      email: ''
+    }
+  }
+})
+
+export default router
