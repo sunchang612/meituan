@@ -59,7 +59,7 @@ router.post('/signup', async(ctx) => {
     email
   })
 
-  if (user) {
+  if (nuser) {
     const res = await axios.post('/users/signin', {
       username,
       password
@@ -83,3 +83,30 @@ router.post('/signup', async(ctx) => {
     }
   }
 })
+
+router.post('/singin', async(ctx, next) => {
+  return Passport.authenticate('local', (err, user, info, status) => {
+    if (err) {
+      ctx.body = {
+        code: -1,
+        msg: err
+      }
+    } else {
+      if (user) {
+        ctx.body = {
+          code: 0,
+          msg: '登录成功！',
+          user
+        }
+        return ctx.login(user)
+      } else {
+        ctx.body = {
+          code: 1,
+          msg: info
+        }
+      }
+    }
+  })(ctx, next)
+})
+
+
