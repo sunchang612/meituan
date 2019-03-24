@@ -12,6 +12,11 @@ import dbConfig from './dbs/config'
 import passport from './interface/utils/passport'
 import users from './dbs/models/users'
 
+const app = new Koa()
+// Import and Set Nuxt.js options
+let config = require('../nuxt.config.js')
+config.dev = !(app.env === 'production')
+
 // session 
 app.keys=['mt', 'sc-keys']
 app.proxy = true
@@ -31,11 +36,6 @@ mongoose.connect(dbConfig.dbs, {
 
 app.use(passport.initialize())
 app.use(passport.session())
-
-const app = new Koa()
-// Import and Set Nuxt.js options
-let config = require('../nuxt.config.js')
-config.dev = !(app.env === 'production')
 
 async function start() {
   // Instantiate nuxt.js
