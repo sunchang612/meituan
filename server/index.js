@@ -10,7 +10,8 @@ import Redis from 'koa-redis'
 import json from 'koa-json'
 import dbConfig from './dbs/config'
 import passport from './interface/utils/passport'
-import users from './dbs/models/users'
+// import users from './dbs/models/users'
+import users from './interface/users'
 
 const app = new Koa()
 // Import and Set Nuxt.js options
@@ -19,6 +20,8 @@ config.dev = !(app.env === 'production')
 
 // session 
 app.keys=['mt', 'sc-keys']
+app.use(session({key: 'mt', prefix: 'mt:uid', store: new Redis()}))
+
 app.proxy = true
 app.use(session({
   key: 'mt',
@@ -53,7 +56,6 @@ async function start() {
   } else {
     await nuxt.ready()
   }
-
   app.use(users.routes()).use(users.allowedMethods())
 
   app.use(ctx => {

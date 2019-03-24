@@ -93,12 +93,12 @@ export default {
       if (tag === 'dd') {
         this.kind = dom.getAttribute('kind')
         let keyword = dom.getAttribute('keyword')
-        let {status,data:{count,pois}}=await self.$axios.get('/search/resultsByKeywords',{
-          params:{
-            keyword,
-            city:self.$store.state.geo.position.city
-          }
-        })
+        // let {status,data:{count,pois}}=await self.$axios.get('/search/resultsByKeywords',{
+        //   params:{
+        //     keyword,
+        //     city:self.$store.state.geo.position.city
+        //   }
+        // })
         if(status===200&&count>0){
           let r= pois.filter(item=>item.photos.length).map(item=>{
             return {

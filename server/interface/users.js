@@ -122,8 +122,8 @@ router.post('/verify', async(ctx, next) => {
 
   let transporter  = nodeMailer.createTransport({
     host: Email.smtp.host,
-    port: 587,
-    secure: false,
+    port: 465,
+    secureConnection: false,
     auth: {
       user: Email.smtp.user,
       pass: Email.smtp.pass
@@ -137,8 +137,9 @@ router.post('/verify', async(ctx, next) => {
     user: ctx.request.body.username
   }
 
+  console.log('Email.smtp.user--->', Email.smtp.user)
   const emailOptions = {
-    form: `“认证邮件” <${Email.smtp,user}>`,
+    from: Email.smtp.user,
     to: ko.email,
     subject: '登录注册码',
     html: `你的网站登录注册的邀请码为: ${ko.code}`
@@ -148,7 +149,7 @@ router.post('/verify', async(ctx, next) => {
     if (err) {
       return console.log(err)
     } else {
-      Store.hmset(`nodemail: ${ko.user}`, ko.code, 'expire', ko.expire, 'email', ko.email)
+      Store.hmset(`nodemail:${ko.user}`, 'code', ko.code, 'expire', ko.expire, 'email', ko.email)
     }
   })
   ctx.body = {
