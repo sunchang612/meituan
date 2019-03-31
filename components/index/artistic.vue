@@ -63,11 +63,11 @@ export default {
     }
   },
   // async mounted(){
-  //   let self=this;
-  //   let {status,data:{count,pois}}=await self.$axios.get('/search/resultsByKeywords',{
+  //   let this=this;
+  //   let {status,data:{count,pois}}=await this.$axios.get('/search/resultsByKeywords',{
   //     params:{
   //       keyword:'景点',
-  //       city:self.$store.state.geo.position.city
+  //       city:this.$store.state.geo.position.city
   //     }
   //   })
   //   if(status===200&&count>0){
@@ -80,25 +80,24 @@ export default {
   //         url:'//abc.com'
   //       }
   //     })
-  //     self.list[self.kind]=r.slice(0,9)
+  //     this.list[this.kind]=r.slice(0,9)
   //   }else{
-  //     self.list[self.kind]=[]
+  //     this.list[this.kind]=[]
   //   }
   // },
   methods: {
     over: async function (e) {
       let dom = e.target
       let tag = dom.tagName.toLowerCase()
-      let self = this
       if (tag === 'dd') {
         this.kind = dom.getAttribute('kind')
         let keyword = dom.getAttribute('keyword')
-        // let {status,data:{count,pois}}=await self.$axios.get('/search/resultsByKeywords',{
-        //   params:{
-        //     keyword,
-        //     city:self.$store.state.geo.position.city
-        //   }
-        // })
+        let {status,data:{count,pois}}=await this.$axios.get('/search/resultsByKeywords',{
+          params:{
+            keyword,
+            city:this.$store.state.geo.position.city
+          }
+        })
         if(status===200&&count>0){
           let r= pois.filter(item=>item.photos.length).map(item=>{
             return {
@@ -109,9 +108,9 @@ export default {
               url:'//abc.com'
             }
           })
-          self.list[self.kind]=r.slice(0,9)
+          this.list[this.kind]=r.slice(0,9)
         }else{
-          self.list[self.kind]=[]
+          this.list[this.kind]=[]
         }
       }
     }
