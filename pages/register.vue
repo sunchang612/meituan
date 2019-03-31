@@ -129,16 +129,15 @@ export default {
   layout: 'blank',
   methods: {
     sendMsg: function () {
-      const self = this;
       let namePass
       let emailPass
-      if (self.timerid) {
+      if (this.timerid) {
         return false
       }
       this.$refs['ruleForm'].validateField('name', (valid) => {
         namePass = valid
       })
-      self.statusMsg = ''
+      this.statusMsg = ''
       if (namePass) {
         return false
       }
@@ -146,37 +145,36 @@ export default {
         emailPass = valid
       })
       if (!namePass && !emailPass) {
-        self.$axios.post('/users/verify', {
-          username: encodeURIComponent(self.ruleForm.name),
-          email: self.ruleForm.email
+        this.$axios.post('/users/verify', {
+          username: encodeURIComponent(this.ruleForm.name),
+          email: this.ruleForm.email
         }).then(({
           status,
           data
         }) => {
           if (status === 200 && data && data.code === 0) {
             let count = 60;
-            self.statusMsg = `验证码已发送,剩余${count--}秒`
-            self.timerid = setInterval(function () {
-              self.statusMsg = `验证码已发送,剩余${count--}秒`
+            this.statusMsg = `验证码已发送,剩余${count--}秒`
+            this.timerid = setInterval(() => {
+              this.statusMsg = `验证码已发送,剩余${count--}秒`
               if (count === 0) {
-                clearInterval(self.timerid)
+                clearInterval(this.timerid)
               }
             }, 1000)
           } else {
-            self.statusMsg = data.msg
+            this.statusMsg = data.msg
           }
         })
       }
     },
-    register: function () {
-      let self = this;
+    register() {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
-          self.$axios.post('/users/signup', {
-            username: window.encodeURIComponent(self.ruleForm.name),
-            password: CryptoJS.MD5(self.ruleForm.pwd).toString(),
-            email: self.ruleForm.email,
-            code: self.ruleForm.code
+          this.$axios.post('/users/signup', {
+            username: window.encodeURIComponent(this.ruleForm.name),
+            password: CryptoJS.MD5(this.ruleForm.pwd).toString(),
+            email: this.ruleForm.email,
+            code: this.ruleForm.code
           }).then(({
             status,
             data
@@ -185,13 +183,13 @@ export default {
               if (data && data.code === 0) {
                 location.href = '/login'
               } else {
-                self.error = data.msg
+                this.error = data.msg
               }
             } else {
-              self.error = `服务器出错，错误码:${status}`
+              this.error = `服务器出错，错误码:${status}`
             }
-            setTimeout(function () {
-              self.error = ''
+            setTimeout(() => {
+              this.error = ''
             }, 1500)
           })
         }

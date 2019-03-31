@@ -21,7 +21,7 @@ router.post('/signup', async(ctx) => {
     const saveExpire = await Store.hget(`nodemail:${username}`, 'expire')
 
     if (code === saveCode) {
-      if (new Date().getTime() - saveExpire > 0) {
+      if (new Date().getTime() - saveExpire < 0) {
         ctx.body = {
           code: -1,
           msg: '验证码已过期，请重新尝试！'
@@ -45,7 +45,7 @@ router.post('/signup', async(ctx) => {
     username
   })
 
-  if (user) {
+  if (user.length > 0) {
     ctx.body = {
       code: -1,
       msg: '用户名已经被注册！'
@@ -84,7 +84,7 @@ router.post('/signup', async(ctx) => {
   }
 })
 
-router.post('/singin', async(ctx, next) => {
+router.post('/signin', async(ctx, next) => {
   return Passport.authenticate('local', (err, user, info, status) => {
     if (err) {
       ctx.body = {
@@ -137,7 +137,6 @@ router.post('/verify', async(ctx, next) => {
     user: ctx.request.body.username
   }
 
-  console.log('Email.smtp.user--->', Email.smtp.user)
   const emailOptions = {
     from: Email.smtp.user,
     to: ko.email,

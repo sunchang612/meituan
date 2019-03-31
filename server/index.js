@@ -19,7 +19,8 @@ let config = require('../nuxt.config.js')
 config.dev = !(app.env === 'production')
 
 // session 
-app.keys=['mt', 'sc-keys']
+// app.keys=['mt', 'sc-keys']
+app.keys = ['mt', 'keyskeys']
 app.use(session({key: 'mt', prefix: 'mt:uid', store: new Redis()}))
 
 app.proxy = true

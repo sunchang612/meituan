@@ -16,7 +16,7 @@ export default {
       return '1029841435@qq.com'
     },
     get pass() {
-      return 'xxxxxxx'  // 邮箱的授权码
+      return 'xhrvywyyoaygbech'  // 邮箱的授权码
     },
     get code(){ // 验证码
       return ()=>{
