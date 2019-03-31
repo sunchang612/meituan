@@ -99,7 +99,7 @@ export default {
           }
         })
         if(status===200&&count>0){
-          let r= pois.filter(item=>item.photos.length).map(item=>{
+          let r= pois && pois.filter(item=>item.photos.length).map(item=>{
             return {
               title:item.name,
               pos:item.type.split(';')[0],
